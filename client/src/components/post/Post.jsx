@@ -1,28 +1,29 @@
 import React from "react";
 import "./post.css";
-
-export default function Post() {
+import { Link } from "react-router-dom";
+export default function Post({ post }) {
   return (
     <div className="post">
-      <img className="postImg" src="https://picsum.photos/500/500" alt="" />
+      <img
+        className="postImg"
+        src={post.photo || "https://picsum.photos/500/500"}
+        alt=""
+      />
       <div className="postInfo">
         <div className="postCats">
-          <span className="postCat">Music</span>
-          <span className="postCat">LifeStyle</span>
+          {post.categories.map((category) => {
+            return <span className="postCat">{category.name}</span>;
+          })}
         </div>
-        <span className="postTitle">lorem ipsum dolor sit amet,</span>
+        <Link to={`/post/${post._id}`}>
+          <span className="postTitle">{post.title}</span>
+        </Link>
         <hr />
-        <span className="postDate">2 hours ago</span>
+        <span className="postDate">
+          {new Date(post.createdAt).toLocaleDateString()}
+        </span>
       </div>
-      <p className="postDesc">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum,
-        consectetur assumenda laborum odio, corporis voluptate eligendi fugit
-        perferendis explicabo odit ratione neque ad molestiae maiores ipsum
-        magnam hic dolorum exercitationem. Lorem ipsum dolor sit amet
-        consectetur adipisicing elit. Nobis unde voluptas veniam animi ipsum
-        corporis placeat. Impedit laudantium sed modi vel animi, cupiditate
-        nulla dolore fugiat veniam in a optio!
-      </p>
+      <p className="postDesc">{post.desc}</p>
     </div>
   );
 }
