@@ -1,12 +1,13 @@
 import "./login.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import React, { useContext, useRef } from "react";
 import { Context } from "../../context/Context";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function Login() {
   const { dispatch, isFetching } = useContext(Context);
-
+  const history = useHistory();
   const userRef = useRef();
   const passwordRef = useRef();
   const handleSubmit = async (e) => {
@@ -17,9 +18,21 @@ export default function Login() {
         username: userRef.current.value,
         password: passwordRef.current.value,
       });
-      console.log(res.data);
+      Swal.fire({
+        title: "Đăng nhập thành công!",
+        text: `Xin chào ${userRef.current.value}`,
+        icon: "success",
+        confirmButtonText: "Đóng",
+      });
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+      history.push("/");
     } catch (err) {
+      Swal.fire({
+        title: "Đăng nhập thất bại!",
+        text: "Email hoặc mật khẩu nhập chưa đúng vui lòng nhập lại !!",
+        icon: "error",
+        confirmButtonText: "Đóng",
+      });
       dispatch({ type: "LOGIN_FAILURE" });
     }
   };
@@ -51,11 +64,12 @@ export default function Login() {
         <button className="loginButton" type="submit" disabled={isFetching}>
           Login
         </button>
-        <button className="loginRegisterButton">
+        <div className="loginAria">
+          <p>First time to come ?</p>
           <Link className="link" to="/register">
-            Register
+            <span className="loginRegisterButton">Please Register</span>
           </Link>
-        </button>
+        </div>
       </form>
     </div>
   );

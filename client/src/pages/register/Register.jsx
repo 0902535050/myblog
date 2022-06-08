@@ -2,6 +2,7 @@ import "./register.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 export default function Register() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(false);
@@ -20,8 +21,19 @@ export default function Register() {
         password: user.password,
         email: user.email,
       });
+      Swal.fire({
+        title: "Đăng ký thành công!",
+        icon: "success",
+        confirmButtonText: "Đóng",
+      });
+
       res.data && window.location.replace("/login");
     } catch (e) {
+      Swal.fire({
+        title: "Đăng ký thất bại!",
+        icon: "error",
+        confirmButtonText: "Đóng",
+      });
       setError(true);
     }
   };
@@ -62,11 +74,12 @@ export default function Register() {
         <button className="registerButton" onClick={handleSubmit}>
           Register
         </button>
-        {/* <button className="registerLoginButton">
+        <div className="registerAria">
+          <p>You already have registered ?</p>
           <Link className="link" to="/login">
-            Login
+            <span className="registerLoginButton">Please Login</span>
           </Link>
-        </button> */}
+        </div>
       </form>
       {error && (
         <span

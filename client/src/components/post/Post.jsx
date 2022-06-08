@@ -2,13 +2,11 @@ import React from "react";
 import "./post.css";
 import { Link } from "react-router-dom";
 export default function Post({ post }) {
+  const PF = "http://localhost:5000/images/";
+
   return (
     <div className="post">
-      <img
-        className="postImg"
-        src={post.photo || "https://picsum.photos/500/500"}
-        alt=""
-      />
+      <img className="postImg" src={PF + post.photo} alt="" />
       <div className="postInfo">
         <div className="postCats">
           {post.categories.map((category) => {
